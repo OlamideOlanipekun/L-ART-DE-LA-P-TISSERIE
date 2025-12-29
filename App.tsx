@@ -1,17 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Menu from './components/Menu';
-import Story from './components/Story';
-import Boutiques from './components/Boutiques';
-import PastryDetail from './components/PastryDetail';
-import AIAssistant from './components/AIAssistant';
-import Cart from './components/Cart';
-import Footer from './components/Footer';
-import BackToTop from './components/BackToTop';
-import { CartItem, Pastry, View } from './types';
-import { PASTRIES } from './constants';
+import Header from './components/Header.tsx';
+import Hero from './components/Hero.tsx';
+import Menu from './components/Menu.tsx';
+import Story from './components/Story.tsx';
+import Boutiques from './components/Boutiques.tsx';
+import PastryDetail from './components/PastryDetail.tsx';
+import AIAssistant from './components/AIAssistant.tsx';
+import Cart from './components/Cart.tsx';
+import Footer from './components/Footer.tsx';
+import BackToTop from './components/BackToTop.tsx';
+import { CartItem, Pastry, View } from './types.ts';
+import { PASTRIES } from './constants.tsx';
 
 const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);

@@ -1,9 +1,8 @@
-
 import React, { useState, useMemo } from 'react';
-import { PASTRIES, CATEGORIES } from '../constants';
-import { Category, Pastry } from '../types';
+import { PASTRIES, CATEGORIES } from '../constants.tsx';
+import { Category, Pastry } from '../types.ts';
 import { Plus, Check, Filter, Quote, ArrowRight } from 'lucide-react';
-import StarRating from './StarRating';
+import StarRating from './StarRating.tsx';
 
 interface MenuProps {
   onAddToCart: (pastry: Pastry) => void;
@@ -14,7 +13,6 @@ const Menu: React.FC<MenuProps> = ({ onAddToCart, onSelectPastry }) => {
   const [activeCategory, setActiveCategory] = useState<Category | 'All'>('All');
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
 
-  // Extract unique ingredients across all pastries
   const allIngredients = useMemo(() => {
     const ingredients = new Set<string>();
     PASTRIES.forEach(p => p.ingredients.forEach(ing => ingredients.add(ing)));
@@ -39,36 +37,34 @@ const Menu: React.FC<MenuProps> = ({ onAddToCart, onSelectPastry }) => {
   }, [activeCategory, selectedIngredients]);
 
   return (
-    <section id="menu" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif mb-4">Our Seasonal Collections</h2>
-          <p className="text-stone-500 max-w-xl mx-auto font-light leading-relaxed">
-            Handcrafted daily with the finest ingredients sourced from sustainable French farms.
-          </p>
+    <section id="menu" className="py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-24 space-y-4">
+          <span className="text-gold text-[10px] font-bold tracking-[0.4em] uppercase">The Portfolio</span>
+          <h2 className="text-5xl md:text-6xl font-serif">Seasonal Collections</h2>
+          <div className="w-16 h-px bg-stone-200 mx-auto mt-8" />
         </div>
 
-        <div className="space-y-8 mb-16">
-          {/* Categories Filter */}
-          <div className="flex flex-wrap justify-center gap-3">
+        <div className="space-y-12 mb-20">
+          <div className="flex flex-wrap justify-center gap-4">
             <button 
               onClick={() => setActiveCategory('All')}
-              className={`px-8 py-2.5 rounded-full text-[10px] font-bold tracking-[0.2em] transition-all duration-300 border ${
+              className={`px-10 py-3 rounded-full text-[9px] font-bold tracking-[0.3em] transition-all duration-500 border ${
                 activeCategory === 'All' 
-                  ? 'bg-stone-900 text-white border-stone-900 shadow-lg shadow-stone-200' 
-                  : 'bg-transparent text-stone-400 border-stone-200 hover:border-stone-400'
+                  ? 'bg-stone-900 text-white border-stone-900 shadow-2xl shadow-stone-200' 
+                  : 'bg-transparent text-stone-400 border-stone-200 hover:border-stone-900 hover:text-stone-900'
               }`}
             >
-              ALL COLLECTIONS
+              ALL CREATIONS
             </button>
             {CATEGORIES.map(cat => (
               <button 
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-8 py-2.5 rounded-full text-[10px] font-bold tracking-[0.2em] transition-all duration-300 border ${
+                className={`px-10 py-3 rounded-full text-[9px] font-bold tracking-[0.3em] transition-all duration-500 border ${
                   activeCategory === cat 
-                    ? 'bg-stone-900 text-white border-stone-900 shadow-lg shadow-stone-200' 
-                    : 'bg-transparent text-stone-400 border-stone-200 hover:border-stone-400'
+                    ? 'bg-stone-900 text-white border-stone-900 shadow-2xl shadow-stone-200' 
+                    : 'bg-transparent text-stone-400 border-stone-200 hover:border-stone-900 hover:text-stone-900'
                 }`}
               >
                 {cat.toUpperCase()}
@@ -76,140 +72,101 @@ const Menu: React.FC<MenuProps> = ({ onAddToCart, onSelectPastry }) => {
             ))}
           </div>
 
-          {/* Ingredients Filter */}
-          <div className="max-w-4xl mx-auto border-t border-stone-100 pt-8">
-            <div className="flex items-center justify-center space-x-2 mb-6">
+          <div className="max-w-4xl mx-auto border-t border-stone-50 pt-10">
+            <div className="flex items-center justify-center space-x-3 mb-8">
               <Filter className="w-3 h-3 text-gold" />
-              <span className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">Filter by Ingredients</span>
+              <span className="text-[9px] font-bold tracking-[0.3em] text-stone-400 uppercase">Anatomy Filter</span>
             </div>
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="flex flex-wrap justify-center gap-3">
               {allIngredients.map(ing => (
                 <button
                   key={ing}
                   onClick={() => toggleIngredient(ing)}
-                  className={`group flex items-center space-x-2 px-4 py-2 rounded-lg text-xs transition-all duration-200 border ${
+                  className={`group flex items-center space-x-3 px-5 py-2.5 rounded-xl text-[11px] transition-all duration-300 border ${
                     selectedIngredients.includes(ing)
-                      ? 'bg-gold/5 border-gold text-gold'
-                      : 'bg-white border-stone-100 text-stone-500 hover:border-stone-300'
+                      ? 'bg-stone-50 border-gold text-stone-900'
+                      : 'bg-white border-stone-100 text-stone-400 hover:border-stone-300'
                   }`}
                 >
-                  <span className={`w-2 h-2 rounded-full transition-colors ${
-                    selectedIngredients.includes(ing) ? 'bg-gold' : 'bg-stone-200 group-hover:bg-stone-300'
+                  <span className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                    selectedIngredients.includes(ing) ? 'bg-gold' : 'bg-stone-100'
                   }`} />
                   <span className="font-medium">{ing}</span>
-                  {selectedIngredients.includes(ing) && <Check className="w-3 h-3" />}
                 </button>
               ))}
-              {selectedIngredients.length > 0 && (
-                <button 
-                  onClick={() => setSelectedIngredients([])}
-                  className="text-[10px] font-bold text-stone-400 hover:text-stone-900 transition-colors uppercase tracking-widest ml-4 self-center"
-                >
-                  Clear All
-                </button>
-              )}
             </div>
           </div>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
-          {filteredPastries.length > 0 ? (
-            filteredPastries.map((pastry) => (
-              <div 
-                key={pastry.id} 
-                onClick={() => onSelectPastry(pastry.id)}
-                className="group cursor-pointer animate-in fade-in slide-in-from-bottom-4 duration-500"
-              >
-                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone-100 mb-6 shadow-sm group-hover:shadow-xl transition-all duration-500">
-                  <img 
-                    src={pastry.image} 
-                    alt={pastry.name}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/20 transition-colors duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <div className="flex flex-col items-center space-y-3">
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onAddToCart(pastry);
-                        }}
-                        className="bg-white text-stone-900 px-8 py-3 rounded-full shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 font-bold text-[10px] tracking-widest hover:bg-gold hover:text-white"
-                      >
-                        ADD TO BAG
-                      </button>
-                      <span className="text-white text-[10px] font-bold tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-700 delay-100">
-                        VIEW DETAILS
-                      </span>
-                    </div>
-                  </div>
-                  <div className="absolute top-4 left-4">
-                     <span className="bg-white/90 backdrop-blur px-3 py-1 text-[9px] font-bold tracking-[0.2em] rounded-full shadow-sm uppercase">
-                        {pastry.category}
-                     </span>
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 lg:gap-20">
+          {filteredPastries.map((pastry) => (
+            <div 
+              key={pastry.id} 
+              onClick={() => onSelectPastry(pastry.id)}
+              className="group cursor-pointer animate-fade-up"
+            >
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-stone-100 mb-8 shadow-sm group-hover:shadow-3xl transition-all duration-700">
+                <img 
+                  src={pastry.image} 
+                  alt={pastry.name}
+                  className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-700" />
+                
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddToCart(pastry);
+                    }}
+                    className="bg-white text-stone-900 px-10 py-4 rounded-full shadow-2xl transform translate-y-6 group-hover:translate-y-0 transition-all duration-700 font-bold text-[10px] tracking-[0.2em] hover:bg-gold hover:text-white uppercase"
+                  >
+                    ADD TO BAG
+                  </button>
+                </div>
+
+                <div className="absolute top-6 left-6">
+                   <span className="bg-white/95 backdrop-blur px-4 py-1.5 text-[9px] font-bold tracking-[0.3em] rounded-full shadow-lg uppercase text-stone-900">
+                      {pastry.category}
+                   </span>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex justify-between items-end">
+                  <h3 className="text-2xl font-serif text-stone-900 group-hover:text-gold transition-colors duration-500">
+                    {pastry.name}
+                  </h3>
+                  <span className="text-xl font-light text-stone-900">
+                    ${pastry.price.toFixed(2)}
+                  </span>
                 </div>
                 
-                <div className="flex justify-between items-start">
-                  <div className="space-y-1 flex-1">
-                    <h3 className="text-xl font-serif text-stone-800 group-hover:text-gold transition-colors duration-300 flex items-center">
-                      {pastry.name}
-                      <ArrowRight className="w-4 h-4 ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-gold" />
-                    </h3>
-                    
-                    <div className="flex items-center justify-between mt-1 mb-2">
-                       <StarRating pastryId={pastry.id} />
-                       <span className="text-lg font-medium text-stone-900">
-                        ${pastry.price.toFixed(2)}
-                      </span>
-                    </div>
-
-                    <p className="text-sm text-stone-500 font-light leading-relaxed pr-4 line-clamp-2">
-                      {pastry.description}
-                    </p>
-                    
-                    {/* Chef's Note Section */}
-                    <div className="mt-4 pt-4 border-t border-stone-50 group-hover:border-stone-100 transition-colors">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Quote className="w-3 h-3 text-gold opacity-50" />
-                        <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Chef's Note Preview</span>
-                      </div>
-                      <p className="text-xs text-stone-400 font-light italic leading-relaxed line-clamp-1">
-                        {pastry.chefsNote}
-                      </p>
-                    </div>
-                  </div>
+                <div className="flex items-center justify-between pb-4 border-b border-stone-50">
+                   <StarRating pastryId={pastry.id} />
+                   <p className="text-[10px] font-bold tracking-widest text-stone-300 uppercase">Available Today</p>
                 </div>
 
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {pastry.ingredients.map((ing, i) => (
+                <p className="text-sm text-stone-400 font-light leading-relaxed pr-6 line-clamp-2 italic">
+                  "{pastry.description}"
+                </p>
+                
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {pastry.ingredients.slice(0, 3).map((ing, i) => (
                     <span 
                       key={i} 
-                      className="text-[9px] border border-stone-100 bg-stone-50 text-stone-400 px-2 py-0.5 rounded-md uppercase font-bold tracking-tighter"
+                      className="text-[8px] border border-stone-100 bg-stone-50/50 text-stone-400 px-2 py-0.5 rounded uppercase font-bold tracking-widest"
                     >
                       {ing}
                     </span>
                   ))}
+                  {pastry.ingredients.length > 3 && (
+                    <span className="text-[8px] text-stone-300 font-bold tracking-widest">+{pastry.ingredients.length - 3} MORE</span>
+                  )}
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="col-span-full py-20 text-center space-y-4">
-              <div className="w-16 h-16 bg-stone-50 rounded-full flex items-center justify-center mx-auto">
-                <Filter className="w-6 h-6 text-stone-200" />
-              </div>
-              <p className="text-stone-400 font-serif italic text-xl">No pastries found matching these specific filters.</p>
-              <button 
-                onClick={() => {
-                  setActiveCategory('All');
-                  setSelectedIngredients([]);
-                }}
-                className="text-gold font-bold text-[10px] tracking-widest uppercase hover:underline"
-              >
-                Reset all filters
-              </button>
             </div>
-          )}
+          ))}
         </div>
       </div>
     </section>
