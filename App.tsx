@@ -15,6 +15,7 @@ import MobileMenu from './components/MobileMenu.tsx';
 import Preloader from './components/Preloader.tsx';
 import FeaturedCarousel from './components/FeaturedCarousel.tsx';
 import RecentlyViewed from './components/RecentlyViewed.tsx';
+import BottomNav from './components/BottomNav.tsx';
 import { CartItem, Pastry, View } from './types.ts';
 import { PASTRIES } from './constants.tsx';
 
@@ -109,20 +110,20 @@ const App: React.FC = () => {
                />
             </div>
             <RecentlyViewed ids={recentlyViewedIds} onSelectPastry={openPastryDetail} />
-            <section className="bg-stone-50 py-24 border-y border-stone-100">
-              <div className="max-w-4xl mx-auto px-4 text-center space-y-8">
+            <section className="bg-stone-50 py-16 lg:py-24 border-y border-stone-100 mb-20 lg:mb-0">
+              <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
                 <span className="text-gold text-xs font-bold tracking-[0.4em] uppercase">Etoile Michelin</span>
-                <blockquote className="text-3xl md:text-4xl font-serif text-stone-800 italic leading-relaxed">
+                <blockquote className="text-2xl md:text-4xl font-serif text-stone-800 italic leading-relaxed">
                   "A symphony of textures and flavors. The Ispahan Croissant is a spiritual experience that lingers long after the last bite."
                 </blockquote>
-                <cite className="block text-stone-400 font-bold uppercase tracking-widest text-xs">— Gaston M. • Culinary Critic</cite>
+                <cite className="block text-stone-400 font-bold uppercase tracking-widest text-[10px]">— Gaston M. • Culinary Critic</cite>
               </div>
             </section>
           </>
         );
       case View.MENU:
         return (
-          <div className="pt-28">
+          <div className="pt-24 lg:pt-28 pb-20 lg:pb-0">
             <Menu 
               onAddToCart={addToCart} 
               onSelectPastry={openPastryDetail} 
@@ -132,14 +133,14 @@ const App: React.FC = () => {
           </div>
         );
       case View.STORY:
-        return <div className="pt-28"><Story /></div>;
+        return <div className="pt-24 lg:pt-28 pb-20 lg:pb-0"><Story /></div>;
       case View.BOUTIQUES:
-        return <div className="pt-28"><Boutiques /></div>;
+        return <div className="pt-24 lg:pt-28 pb-20 lg:pb-0"><Boutiques /></div>;
       case View.CONTACT:
-        return <div className="pt-28"><Contact /></div>;
+        return <div className="pt-24 lg:pt-28 pb-20 lg:pb-0"><Contact /></div>;
       case View.WISHLIST:
         return (
-          <div className="pt-28">
+          <div className="pt-24 lg:pt-28 pb-20 lg:pb-0">
             <Wishlist 
               wishlistIds={wishlistIds}
               onToggleWishlist={toggleWishlist}
@@ -153,7 +154,7 @@ const App: React.FC = () => {
         const pastry = PASTRIES.find(p => p.id === selectedPastryId);
         if (!pastry) return <Hero onScrollToMenu={() => setCurrentView(View.MENU)} />;
         return (
-          <div className="pt-28">
+          <div className="pt-24 lg:pt-28 pb-20 lg:pb-0">
             <PastryDetail 
               pastry={pastry} 
               onBack={() => setCurrentView(View.MENU)} 
@@ -211,6 +212,15 @@ const App: React.FC = () => {
           <AIAssistant 
             isOpen={isAIOpen} 
             onClose={() => setIsAIOpen(false)} 
+          />
+
+          <BottomNav 
+            currentView={currentView}
+            onNavigate={setCurrentView}
+            onOpenCart={() => setIsCartOpen(true)}
+            onOpenAI={() => setIsAIOpen(true)}
+            cartCount={cart.reduce((acc, i) => acc + i.quantity, 0)}
+            wishlistCount={wishlistIds.length}
           />
 
           <BackToTop />
