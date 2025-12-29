@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingBag, Quote, CheckCircle2, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, ShoppingBag, Quote, CheckCircle2, Star, ChevronDown, ChevronUp, Heart } from 'lucide-react';
 import { Pastry } from '../types.ts';
 
 interface PastryDetailProps {
   pastry: Pastry;
   onBack: () => void;
   onAddToCart: (pastry: Pastry) => void;
+  wishlistIds: string[];
+  onToggleWishlist: (id: string) => void;
 }
 
-const PastryDetail: React.FC<PastryDetailProps> = ({ pastry, onBack, onAddToCart }) => {
+const PastryDetail: React.FC<PastryDetailProps> = ({ pastry, onBack, onAddToCart, wishlistIds, onToggleWishlist }) => {
   const [isNoteExpanded, setIsNoteExpanded] = useState(false);
+  const isInWishlist = wishlistIds.includes(pastry.id);
 
   return (
     <div className="min-h-screen bg-white pt-20">
@@ -117,12 +120,21 @@ const PastryDetail: React.FC<PastryDetailProps> = ({ pastry, onBack, onAddToCart
             <div className="pt-12 border-t border-stone-100 flex flex-col sm:flex-row gap-6">
               <button 
                 onClick={() => onAddToCart(pastry)}
-                className="flex-1 bg-stone-900 text-gold py-6 rounded-2xl font-bold text-[10px] tracking-[0.3em] uppercase hover:bg-gold hover:text-white transition-all duration-700 shadow-2xl shadow-stone-200"
+                className="flex-[2] bg-stone-900 text-gold py-6 rounded-2xl font-bold text-[10px] tracking-[0.3em] uppercase hover:bg-gold hover:text-white transition-all duration-700 shadow-2xl shadow-stone-200 flex items-center justify-center space-x-3"
               >
-                ADD TO BOUTIQUE BAG
+                <ShoppingBag className="w-4 h-4" />
+                <span>ADD TO BOUTIQUE BAG</span>
               </button>
-              <button className="px-12 py-6 rounded-2xl border border-stone-200 font-bold text-[10px] tracking-[0.3em] uppercase text-stone-400 hover:border-stone-900 hover:text-stone-900 transition-all">
-                GIFT ARTISTRY
+              <button 
+                onClick={() => onToggleWishlist(pastry.id)}
+                className={`flex-1 flex items-center justify-center space-x-3 px-8 py-6 rounded-2xl border transition-all font-bold text-[10px] tracking-[0.3em] uppercase ${
+                  isInWishlist 
+                    ? 'border-gold bg-gold/5 text-gold' 
+                    : 'border-stone-200 text-stone-400 hover:border-stone-900 hover:text-stone-900'
+                }`}
+              >
+                <Heart className={`w-4 h-4 ${isInWishlist ? 'fill-gold' : ''}`} />
+                <span>{isInWishlist ? 'WISHLISTED' : 'SAVE'}</span>
               </button>
             </div>
 

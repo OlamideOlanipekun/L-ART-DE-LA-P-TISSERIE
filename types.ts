@@ -1,4 +1,3 @@
-
 export enum Category {
   VIENNOISERIE = 'Viennoiserie',
   TARTES = 'Tartes',
@@ -12,6 +11,8 @@ export enum View {
   MENU = 'menu',
   STORY = 'story',
   BOUTIQUES = 'boutiques',
+  CONTACT = 'contact',
+  WISHLIST = 'wishlist',
   PASTRY_DETAIL = 'pastry_detail'
 }
 

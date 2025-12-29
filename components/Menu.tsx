@@ -1,15 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { PASTRIES, CATEGORIES } from '../constants.tsx';
 import { Category, Pastry } from '../types.ts';
-import { Plus, Check, Filter, Quote, ArrowRight } from 'lucide-react';
+import { Plus, Check, Filter, Heart, ShoppingBag } from 'lucide-react';
 import StarRating from './StarRating.tsx';
 
 interface MenuProps {
   onAddToCart: (pastry: Pastry) => void;
   onSelectPastry: (id: string) => void;
+  wishlistIds: string[];
+  onToggleWishlist: (id: string) => void;
 }
 
-const Menu: React.FC<MenuProps> = ({ onAddToCart, onSelectPastry }) => {
+const Menu: React.FC<MenuProps> = ({ onAddToCart, onSelectPastry, wishlistIds, onToggleWishlist }) => {
   const [activeCategory, setActiveCategory] = useState<Category | 'All'>('All');
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
 
@@ -113,6 +115,22 @@ const Menu: React.FC<MenuProps> = ({ onAddToCart, onSelectPastry }) => {
                 />
                 <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-700" />
                 
+                <div className="absolute top-6 right-6 z-10">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleWishlist(pastry.id);
+                    }}
+                    className={`p-3 rounded-full backdrop-blur-md shadow-xl transition-all duration-500 transform ${
+                      wishlistIds.includes(pastry.id) 
+                        ? 'bg-white text-gold scale-110 opacity-100' 
+                        : 'bg-white/30 text-white lg:opacity-0 group-hover:opacity-100 hover:bg-white hover:text-gold'
+                    }`}
+                  >
+                    <Heart className={`w-4 h-4 ${wishlistIds.includes(pastry.id) ? 'fill-gold' : ''}`} />
+                  </button>
+                </div>
+
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <button 
                     onClick={(e) => {
