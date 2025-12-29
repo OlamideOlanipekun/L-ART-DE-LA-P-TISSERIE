@@ -1,0 +1,7 @@
+{
+  "name": "L'Art de la Pâtisserie",
+  "description": "An ultra-premium artisan pastry boutique featuring an AI Pastry Sommelier for personalized recommendations and immersive culinary storytelling.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
