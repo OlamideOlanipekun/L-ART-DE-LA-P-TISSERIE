@@ -1,12 +1,17 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const API_KEY = process.env.API_KEY;
-
 export const getPastryRecommendation = async (mood: string, preferences: string) => {
-  if (!API_KEY) return null;
+  // Access process.env safely within the function scope
+  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
   
-  const ai = new GoogleGenAI({ apiKey: API_KEY });
+  if (!apiKey) {
+    console.warn("Gemini API Key is not configured. Please ensure process.env.API_KEY is set.");
+    return null;
+  }
+  
+  // Create a new instance right before the call as per recommended best practices
+  const ai = new GoogleGenAI({ apiKey });
   
   try {
     const response = await ai.models.generateContent({
@@ -26,7 +31,10 @@ export const getPastryRecommendation = async (mood: string, preferences: string)
       }
     });
 
-    return JSON.parse(response.text || '{}');
+    const text = response.text;
+    if (!text) return null;
+    
+    return JSON.parse(text.trim());
   } catch (error) {
     console.error("Gemini API Error:", error);
     return null;
