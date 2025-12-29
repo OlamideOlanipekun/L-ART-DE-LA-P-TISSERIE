@@ -16,11 +16,13 @@ import Preloader from './components/Preloader.tsx';
 import FeaturedCarousel from './components/FeaturedCarousel.tsx';
 import RecentlyViewed from './components/RecentlyViewed.tsx';
 import BottomNav from './components/BottomNav.tsx';
+import Auth from './components/Auth.tsx';
 import { CartItem, Pastry, View } from './types.ts';
 import { PASTRIES } from './constants.tsx';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<{ name: string } | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlistIds, setWishlistIds] = useState<string[]>([]);
   const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>([]);
@@ -37,6 +39,9 @@ const App: React.FC = () => {
 
     const savedHistory = localStorage.getItem('lart-recently-viewed');
     if (savedHistory) setRecentlyViewedIds(JSON.parse(savedHistory));
+
+    const savedUser = localStorage.getItem('lart-user');
+    if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
   useEffect(() => {
@@ -46,6 +51,12 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('lart-recently-viewed', JSON.stringify(recentlyViewedIds));
   }, [recentlyViewedIds]);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('lart-user', JSON.stringify(user));
+    }
+  }, [user]);
 
   // Scroll to top on view change
   useEffect(() => {
@@ -164,6 +175,8 @@ const App: React.FC = () => {
             />
           </div>
         );
+      case View.AUTH:
+        return <Auth onSuccess={setUser} onNavigate={setCurrentView} />;
       default:
         return <Hero onScrollToMenu={() => setCurrentView(View.MENU)} />;
     }
@@ -183,6 +196,7 @@ const App: React.FC = () => {
             onOpenCart={() => setIsCartOpen(true)}
             onOpenAI={() => setIsAIOpen(true)}
             onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
+            userName={user?.name}
           />
           
           <main>

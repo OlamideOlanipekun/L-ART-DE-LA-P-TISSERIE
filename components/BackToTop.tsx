@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ChevronUp } from 'lucide-react';
 
@@ -7,7 +6,8 @@ const BackToTop: React.FC = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 400) {
+      // Use scrollY as it is standard in modern browsers
+      if (window.scrollY > 400) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -30,17 +30,17 @@ const BackToTop: React.FC = () => {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-8 right-8 z-[60] group flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-500"
+      className="fixed bottom-24 lg:bottom-12 right-6 lg:right-12 z-[120] group flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-500"
       aria-label="Back to top"
     >
       <div className="relative">
-        <div className="absolute -inset-2 bg-gold/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="relative bg-stone-900 border border-stone-800 text-gold p-3 rounded-full shadow-2xl transition-all duration-300 group-hover:bg-gold group-hover:text-white group-hover:-translate-y-1">
+        <div className="absolute -inset-4 bg-gold/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="relative bg-stone-900/90 backdrop-blur-xl border border-white/10 text-gold p-4 rounded-full shadow-2xl transition-all duration-300 group-hover:bg-gold group-hover:text-white group-hover:-translate-y-2">
           <ChevronUp className="w-5 h-5" />
         </div>
       </div>
-      <span className="mt-2 text-[8px] font-bold tracking-[0.3em] text-stone-400 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        Top
+      <span className="mt-2 text-[7px] font-bold tracking-[0.4em] text-stone-400 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        Return
       </span>
     </button>
   );

@@ -13,7 +13,8 @@ export enum View {
   BOUTIQUES = 'boutiques',
   CONTACT = 'contact',
   WISHLIST = 'wishlist',
-  PASTRY_DETAIL = 'pastry_detail'
+  PASTRY_DETAIL = 'pastry_detail',
+  AUTH = 'auth'
 }
 
 export interface Pastry {

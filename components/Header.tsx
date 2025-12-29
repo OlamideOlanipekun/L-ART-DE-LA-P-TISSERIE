@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Sparkles, Menu as MenuIcon, Heart } from 'lucide-react';
+import { ShoppingBag, Sparkles, Menu as MenuIcon, Heart, User } from 'lucide-react';
 import { View } from '../types.ts';
 
 interface HeaderProps {
@@ -10,6 +10,7 @@ interface HeaderProps {
   onOpenCart: () => void;
   onOpenAI: () => void;
   onOpenMobileMenu: () => void;
+  userName?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ 
@@ -19,7 +20,8 @@ const Header: React.FC<HeaderProps> = ({
   onNavigate, 
   onOpenCart, 
   onOpenAI, 
-  onOpenMobileMenu 
+  onOpenMobileMenu,
+  userName
 }) => {
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
@@ -84,6 +86,18 @@ const Header: React.FC<HeaderProps> = ({
                 <Heart className={`w-5 h-5 ${currentView === View.WISHLIST ? 'fill-gold' : 'group-hover:fill-gold/10'}`} />
                 {wishlistCount > 0 && (
                   <span className="absolute top-1 right-1 w-2 h-2 bg-gold rounded-full border border-white" />
+                )}
+              </button>
+
+              <button 
+                onClick={() => onNavigate(View.AUTH)}
+                className={`relative group p-2 transition-colors ${currentView === View.AUTH ? 'text-gold' : 'text-stone-900 hover:text-gold'}`}
+              >
+                <User className="w-5 h-5" />
+                {userName && (
+                  <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[7px] font-bold text-gold uppercase whitespace-nowrap">
+                    {userName}
+                  </span>
                 )}
               </button>
 
